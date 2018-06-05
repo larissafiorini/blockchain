@@ -14,8 +14,12 @@ val it = "The block chain: " : string
 
 val block1 = {hash = "1", previousHash = "0", data = "Hi im the first block", timeStamp = 1, nonce = 1};
 val SOME x = (Int.fromString (#hash block1));
-val block2 = {hash = (x) + (#timeStamp block1) + (#nonce block1), previousHash = #hash block1, data = "Hi im the second block", timeStamp = 2, nonce = 2};
-val block3 = {hash = (#hash block2) + (#timeStamp block2) + (#nonce block2), previousHash = #hash block2, data = "Hi im the third block", timeStamp = 3, nonce = 3};
+val calculoHash = (x) + (#timeStamp block1) + (#nonce block1);
+val hashToString = Int.toString calculoHash;
+val block2 = {hash = hashToString, previousHash = #hash block1, data = "Hi im the second block", timeStamp = 2, nonce = 2};
+val calculoHash3 = (calculoHash) + (#timeStamp block2) + (#nonce block2);
+val hashToString3 = Int.toString calculoHash3;
+val block3 = {hash = hashToString3, previousHash = #hash block2, data = "Hi im the third block", timeStamp = 3, nonce = 3};
 
 (* Lista de blocos *)
 val blockchain = [block1, block2, block3]; 
