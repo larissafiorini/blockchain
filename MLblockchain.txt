@@ -1,14 +1,6 @@
 (* Blockchain *)
 val it = "The block chain: " : string
 
-val block1 = {hash = "1", previousHash = "0", data = "Hi im the first block", timeStamp = 1, nonce = 1};
-val SOME x = (Int.fromString (#hash block1));
-val block2 = {hash = (x) + (#timeStamp block1) + (#nonce block1), previousHash = #hash block1, data = "Hi im the second block", timeStamp = 2, nonce = 2};
-val block3 = {hash = (#hash block2) + (#timeStamp block2) + (#nonce block2), previousHash = #hash block2, data = "Hi im the third block", timeStamp = 3, nonce = 3};
-
-(* Lista de blocos *)
-val blockchain = [block1, block2, block3]; 
-
 (*	//Calculate new hash based on blocks contents
 	public String calculateHash() {
 		String calculatedhash = StringUtil.applySha256( 
@@ -19,13 +11,14 @@ val blockchain = [block1, block2, block3];
 				);
 		return calculatedhash;
 	} *)
-val test= #hash block1;
-val testr=Word.fromString test;
-val testand=Word.toInt testr;
-val SOME x = (Int.fromString (#hash block1));
-val testando = SOME (Int.fromString (#hash block1)) + (#timeStamp block1) + (#nonce block1) ;
 
-val SOME x = Int.fromString "3";
+val block1 = {hash = "1", previousHash = "0", data = "Hi im the first block", timeStamp = 1, nonce = 1};
+val SOME x = (Int.fromString (#hash block1));
+val block2 = {hash = (x) + (#timeStamp block1) + (#nonce block1), previousHash = #hash block1, data = "Hi im the second block", timeStamp = 2, nonce = 2};
+val block3 = {hash = (#hash block2) + (#timeStamp block2) + (#nonce block2), previousHash = #hash block2, data = "Hi im the third block", timeStamp = 3, nonce = 3};
+
+(* Lista de blocos *)
+val blockchain = [block1, block2, block3]; 
 
 (* ideia para função de criar hash *)
 fun hash (k: string): int =
