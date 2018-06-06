@@ -1,6 +1,14 @@
 (* Blockchain *)
 val it = "The block chain: " : string
 
+(* Função para cálculo hash *)
+fun calchash {a, b, c} = 
+(Char.ord (List.nth ((explode a), 0)))
++ b 
++ (Real.floor c);
+
+
+
 (*	//Calculate new hash based on blocks contents
 	public String calculateHash() {
 		String calculatedhash = StringUtil.applySha256( 
@@ -13,11 +21,12 @@ val it = "The block chain: " : string
 	} *)
 
 val block1 = {hash = "1", previousHash = "0", data = "Hi im the first block", timeStamp = 1, nonce = 1};
-val SOME x = (Int.fromString (#hash block1));
-val calculoHash = (x) + (#timeStamp block1) + (#nonce block1);
+(* val SOME x = (Int.fromString (#hash block1)); *)
+val calculoHash = calchash {a= #hash block1, b= #timeStamp block1, c= (Real.fromInt(#nonce block1))};
+(* val calculoHash = (x) + (#timeStamp block1) + (#nonce block1); *)
 val hashToString = Int.toString calculoHash;
 val block2 = {hash = hashToString, previousHash = #hash block1, data = "Hi im the second block", timeStamp = 2, nonce = 2};
-val calculoHash3 = (calculoHash) + (#timeStamp block2) + (#nonce block2);
+val calculoHash3 = calchash {a= #hash block2, b= #timeStamp block2, c= (Real.fromInt(#nonce block2))};
 val hashToString3 = Int.toString calculoHash3;
 val block3 = {hash = hashToString3, previousHash = #hash block2, data = "Hi im the third block", timeStamp = 3, nonce = 3};
 
@@ -37,8 +46,6 @@ hash "ax";
 hash "bx";
 hash "cx";
     
-
-
 fun readFile filename =
     let val fd = TextIO.openIn filename
         val content = TextIO.inputAll fd handle e => (TextIO.closeIn fd; raise e)
