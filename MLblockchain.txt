@@ -7,28 +7,32 @@ fun calchash {a, b, c} =
 + b 
 + (Real.floor c);
 
-
-
-(*	//Calculate new hash based on blocks contents
-	public String calculateHash() {
-		String calculatedhash = StringUtil.applySha256( 
-				previousHash +
-				Long.toString(timeStamp) +
-				Integer.toString(nonce) + 
-				data 
-				);
-		return calculatedhash;
-	} *)
-
+(* Definição de blocos *)
 val block1 = {hash = "1", previousHash = "0", data = "Hi im the first block", timeStamp = 1, nonce = 1};
-(* val SOME x = (Int.fromString (#hash block1)); *)
 val calculoHash = calchash {a= #hash block1, b= #timeStamp block1, c= (Real.fromInt(#nonce block1))};
-(* val calculoHash = (x) + (#timeStamp block1) + (#nonce block1); *)
 val hashToString = Int.toString calculoHash;
 val block2 = {hash = hashToString, previousHash = #hash block1, data = "Hi im the second block", timeStamp = 2, nonce = 2};
 val calculoHash3 = calchash {a= #hash block2, b= #timeStamp block2, c= (Real.fromInt(#nonce block2))};
 val hashToString3 = Int.toString calculoHash3;
 val block3 = {hash = hashToString3, previousHash = #hash block2, data = "Hi im the third block", timeStamp = 3, nonce = 3};
+
+fun readFile filename =
+    let val fd = TextIO.openIn filename
+        val content = TextIO.inputAll fd handle e => (TextIO.closeIn fd; raise e)
+        val _ = TextIO.closeIn fd
+    in content end;
+
+fun writeFile filename content =
+    let val fd = TextIO.openOut filename
+        val _ = TextIO.output (fd, content) handle e => (TextIO.closeOut fd; raise e)
+        val _ = TextIO.closeOut fd
+    in () end;
+
+(* Escreve primeiro bloco no arquivo json*)
+fun escreve {hash,previousHash, data, timeStamp, nonce} = "{\"hash\": \"" ^ hash ^"\", \"previousHash\": \"" ^ previousHash ^"\", \"data\": \"" ^ data ^"\",\"data\": \"" ^ timeStamp ^"\",\"nonce\": \"" ^ nonce ^"\"}";
+
+val dkffdk = escreve {hash="1",previousHash="0", data="Hi im the first block", timeStamp=1, nonce = 1};
+writeFile "C:/Users/14104127/Desktop/testando.sml" dkffdk;
 
 (* Lista de blocos *)
 val blockchain = [block1, block2, block3]; 
@@ -46,15 +50,5 @@ hash "ax";
 hash "bx";
 hash "cx";
     
-fun readFile filename =
-    let val fd = TextIO.openIn filename
-        val content = TextIO.inputAll fd handle e => (TextIO.closeIn fd; raise e)
-        val _ = TextIO.closeIn fd
-    in content end;
 
-fun writeFile filename content =
-    let val fd = TextIO.openOut filename
-        val _ = TextIO.output (fd, content) handle e => (TextIO.closeOut fd; raise e)
-        val _ = TextIO.closeOut fd
-    in () end;
     
