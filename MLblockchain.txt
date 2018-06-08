@@ -34,12 +34,17 @@ fun writeFile filename content =
         val _ = TextIO.output (fd, content) handle e => (TextIO.closeOut fd; raise e)
         val _ = TextIO.closeOut fd
     in () end;
-
-(* Escreve primeiro bloco no arquivo json*)
+	
+(* Escreve blocos no arquivo json*)
 fun escreve {hash,previousHash, data, timeStamp, nonce} = "{\"hash\": \"" ^ hash ^"\", \"previousHash\": \"" ^ previousHash ^"\", \"data\": \"" ^ data ^"\",\"data\": \"" ^ timeStamp ^"\",\"nonce\": \"" ^ nonce ^"\"}";
 
-val dkffdk = escreve {hash="1",previousHash="0", data="Hi im the first block", timeStamp=1, nonce = 1};
-writeFile "C:/Users/14104127/Desktop/testando.sml" dkffdk;
+val blockToWrite = escreve {hash= #hash block1 ,previousHash= #previousHash block1 , data= #data block1, timeStamp= #timeStamp block1, nonce = #nonce block1 };
+writeFile "C:/Users/14104127/Desktop/testando.sml" blockToWrite;
+val blockToWrite2 = escreve {hash= #hash block2 ,previousHash= #previousHash block2 , data= #data block2, timeStamp= #timeStamp block2, nonce = #nonce block2 };
+val addSecondBlock = blockToWrite ^ "\n" ^ blockToWrite2;
+val blockToWrite3 = escreve {hash= #hash block1 ,previousHash= #previousHash block3 , data= #data block3, timeStamp= #timeStamp block3, nonce = #nonce block3 };
+val allBlocks = addSecondBlock ^ "\n" ^ blockToWrite3;
+writeFile "C:/Users/14104127/Desktop/testando.sml" allBlocks;
 
 (* Lista de blocos *)
 val blockchain = [block1, block2, block3]; 
