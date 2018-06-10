@@ -94,7 +94,28 @@ conc listaCaracteres;
 ch::chl;
 recebechar(#"a",[#"b",#"c"]);
 
-val bubu = montatudo (List.length listaCaracteres, [], 0,[]);
+val dadosarq = montatudo (List.length listaCaracteres, [], 0,[]);
+(* usando arquivo para remontar bloco *)
+val block1 = {hash = List.nth (dadosarq, 1), previousHash = List.nth (dadosarq, 3),data = List.nth (dadosarq, 5), timeStamp = List.nth (dadosarq, 7), nonce = List.nth (dadosarq, 9)};
+
+(*val SOME timeStampToInt= Int.fromString (#timeStamp block1);
+val SOME nonceToInt= Int.fromString (#nonce block1);
+
+val calculoHash = calchash {a= #hash block1, b= timeStampToInt, c= Real.fromInt(nonceToInt)};
+val hashToString = Int.toString calculoHash;
+val block2 = {hash = hashToString, previousHash = #hash block1, data = "Hi im the second block", timeStamp = "2", nonce = "2"};
+
+val SOME timeStampToInt3= Int.fromString (#timeStamp block2);
+val SOME nonceToInt3= Int.fromString (#nonce block2);
+val calculoHash2 = calchash {a= #hash block2, b= timeStampToInt3, c= Real.fromInt(nonceToInt3)};
+
+val hashToString3 = Int.toString calculoHash2;
+val block3 = {hash = hashToString3, previousHash = #hash block2, data = "Hi im the third block", timeStamp = "3", nonce = "3"};
+*)
+
+
+
+
 val caca = implode bubu;
 
 List.length listaCaracteres;
