@@ -72,6 +72,9 @@ if i < tam then
 	if (Char.compare(List.nth (listaCaracteres, i), #"{") = EQUAL) orelse (Char.compare(List.nth (listaCaracteres, i),#"\"") = EQUAL)
 	then montatudo(tam, chlist,i+1,stlist) (* chama função de novo*)
 	else if Char.compare(List.nth (listaCaracteres, i), #":") = EQUAL then montatudo(tam,[],i+1,listaString(stlist,implode chlist))
+	else if Char.compare(List.nth (listaCaracteres, i), #",") = EQUAL then montatudo(tam,[],i+1,listaString(stlist,implode chlist))
+	else if Char.compare(List.nth (listaCaracteres, i),#"}") = EQUAL then montatudo(tam,[],i+1,listaString(stlist,implode chlist))
+	else if Char.compare(List.nth (listaCaracteres, i),#"\n") = EQUAL then montatudo(tam,[],i+1,listaString(stlist,implode chlist))
 	else montatudo(tam, recebechar(List.nth (listaCaracteres, i),chlist), i+1,stlist) (* chama função q guarda palavra *)
 else stlist;
 
