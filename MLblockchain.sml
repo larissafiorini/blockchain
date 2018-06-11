@@ -249,3 +249,35 @@ fact 5;
 
 fun testando palavra=
 List
+
+
+
+
+val block1 = {hash = "1", previousHash = "0", data = "Hi im the first block", timeStamp = "1", nonce = "1"};
+val SOME timeStampToInt= Int.fromString (#timeStamp block1);
+val SOME nonceToInt= Int.fromString (#nonce block1);
+
+val calculoHash = calchash {a= #hash block1, b= timeStampToInt, c= Real.fromInt(nonceToInt)};
+val block = {hash = "123321233212332123321233212332123321233212332123321233212332123321233212332123321233212332123321233212332123321233212332123321233212332123321233212332123321233212332123321233212332123321233212332123321233212332123321233212332123321233212332123321233212332", previousHash = "0323", data = "Hi im the first block", timeStamp = "12", nonce = "41"};
+val input = 0;
+val prevHash = "12345"
+fun mine (  prevHash:string ,block: {data : string, hash : string, nonce : string, previousHash : string, timeStamp : string} ) = 
+    let
+    	val dificulty = 10
+	val target = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+	val h = Int.toString(calchash {a= prevHash, b= timeStampToInt, c= Real.fromInt(nonceToInt)})
+	val hash = String.substring(target,0, (126-String.size(h)))^h
+	val SOME timeStampToInt= Int.fromString (#timeStamp block)
+	val SOME nonceToInt= Int.fromString (#nonce block)
+    in
+    	if(1<0) then hash
+    	else if(String.compare(  String.substring(hash,0,dificulty), String.substring(target,0,dificulty)  ) = EQUAL) then hash
+    	else  mine ( hash ,{hash = (#hash block), previousHash = (#previousHash block), data = (#data block), timeStamp = (#timeStamp block), nonce = Int.toString (nonceToInt+1) }) 
+    end;
+    
+	
+	
+	
+	
+	
+	
