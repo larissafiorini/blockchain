@@ -22,7 +22,9 @@
 	
 	SML Wikipedia
 	https://en.wikipedia.org/wiki/Standard_ML
+	http://pages.cs.wisc.edu/~fischer/cs538.s08/lectures/Lecture28.4up.pdf
 *)
+
 
 
 (* Blockchain *)
