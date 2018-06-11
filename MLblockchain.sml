@@ -1,3 +1,30 @@
+(*
+	ALUNOS: Larissa Martin, Carlos Souza, Felipe Guedes
+	REFERENCIAS:
+	
+	Paradigma Funcional
+	https://moodle.pucrs.br/pluginfile.php/2398157/mod_resource/content/1/mangan_lp_2017_2_es_u04.pdf
+	
+	SML Manual
+	http://sml-family.org/Basis/manpages.html
+	
+	Creating Blockchain in Java
+	https://medium.com/programmers-blockchain/create-simple-blockchain-java-tutorial-from-scratch-6eeed3cb03fa
+	
+	Creating Blockchain in Haskel
+	http://www.michaelburge.us/2017/08/17/rolling-your-own-blockchain.html
+	
+	DataType Stackoverflow
+	https://stackoverflow.com/questions/19805544/sml-difference-between-type-and-datatype
+	
+	Site Oficial Alice SML
+	https://www.ps.uni-saarland.de/alice/
+	
+	SML Wikipedia
+	https://en.wikipedia.org/wiki/Standard_ML
+*)
+
+
 (* Blockchain *)
 val it = "The block chain: " : string
 
