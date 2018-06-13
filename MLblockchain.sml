@@ -115,14 +115,14 @@ val block1 = {hash = List.nth (dadosarq, 1), previousHash = List.nth (dadosarq, 
 (* minera *)
 fun mine ( block: data_block ) = 
     let
-    	val dificulty = 10
+    	val difficulty = 10
 	val target = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
 	val h = Int.toString(calchash {a= (#hash block), b= timeStampToInt, c= Real.fromInt(nonceToInt)})
 	val hash = String.substring(target,0, (126-String.size(h)))^h
 	val SOME timeStampToInt= Int.fromString (#timeStamp block)
 	val SOME nonceToInt= Int.fromString (#nonce block)
     in
-    	if(String.compare(  String.substring(hash,0,dificulty), String.substring(target,0,dificulty)  ) = EQUAL) then {hash = hash, previousHash = (#hash block), data = (#data block), timeStamp = (#timeStamp block), nonce = Int.toString (nonceToInt) }
+    	if(String.compare(  String.substring(hash,0,difficulty), String.substring(target,0,dificulty)  ) = EQUAL) then {hash = hash, previousHash = (#hash block), data = (#data block), timeStamp = (#timeStamp block), nonce = Int.toString (nonceToInt) }
     	else  mine ( {hash = (#hash block), previousHash = (#previousHash block), data = (#data block), timeStamp = (#timeStamp block), nonce = Int.toString (nonceToInt+1) }) 
     end;
 	
@@ -132,3 +132,26 @@ blockchain@[mine(List.last blockchain)];
 (* FUNCAO DE ALTA ORDEM *)
 val allBlocks2 = List.map escreve (atualizaLista (blockchain));
 writeFile "./testando.sml" (String.concat allBlocks2);
+
+
+
+(*Validacao da cadeia de blocos*)
+fun validate (previousBlock = data_block, currentBlock = data_block, i = Int) =
+let
+	val target = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+	val difficulty = 10
+in
+	if(!String.compare ((#hash currentBlock), (calchash {a= (#hash currentBlock), b= timeStampToInt, c= Real.fromInt(nonceToInt)}))) = EQUAL) then false;
+	else if(!String.compare ((#hash previousBlock),((#previousHash currentBlock))) = EQUAL) then false
+	else if(!String.compare(  String.substring(hash,0,difficulty), target  ) = EQUAL) then false
+	
+	else if(i < length blockchain) 
+	then validate({hash = (#hash previousBlock), previousHash = (#previousHash previousBlock), data = (#data previousBlock), timeStamp = (#timeStamp previousBlock), nonce = Int.toString (nonceToInt+1)}
+				  , {hash = (#hash currentBlock), previousHash = (#previousHash currentBlock), data = (#data currentBlock), timeStamp = (#timeStamp currentBlock), nonce = Int.toString (nonceToInt+1)}
+				  , i+1)
+
+	else true;
+
+
+end;
+
