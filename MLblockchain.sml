@@ -33,7 +33,7 @@ val it = "The block chain: " : string
 
 (*  TYPE  *)
 
-type dataBlock = {data : string, hash : string, nonce : string, previousHash : string, timeStamp : string}
+type data_block = {data : string, hash : string, nonce : string, previousHash : string, timeStamp : string}
 
 (* Fun��o para c�lculo hash *)
 fun calchash {a, b, c} = 
@@ -113,7 +113,7 @@ val block1 = {hash = List.nth (dadosarq, 1), previousHash = List.nth (dadosarq, 
 
 
 (* minera *)
-fun mine ( block: dataBlock ) = 
+fun mine ( block: data_block ) = 
     let
     	val dificulty = 10
 	val target = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
@@ -125,3 +125,10 @@ fun mine ( block: dataBlock ) =
     	if(String.compare(  String.substring(hash,0,dificulty), String.substring(target,0,dificulty)  ) = EQUAL) then {hash = hash, previousHash = (#hash block), data = (#data block), timeStamp = (#timeStamp block), nonce = Int.toString (nonceToInt) }
     	else  mine ( {hash = (#hash block), previousHash = (#previousHash block), data = (#data block), timeStamp = (#timeStamp block), nonce = Int.toString (nonceToInt+1) }) 
     end;
+	
+fun atualizaLista (blockchain: data_block list)=
+blockchain@[mine(List.last blockchain)];
+
+(* FUNCAO DE ALTA ORDEM *)
+val allBlocks2 = List.map escreve (atualizaLista (blockchain));
+writeFile "./testando.sml" (String.concat allBlocks2);
