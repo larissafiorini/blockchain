@@ -70,17 +70,15 @@ fun writeFile filename content =
     in () end;
 
 (* Escreve blocos no arquivo json*)
-fun escreve {hash,previousHash, data, timeStamp, nonce} = "{\"hash\": \"" ^ hash ^"\", \"previousHash\": \"" ^ previousHash ^"\", \"data\": \"" ^ data ^"\", \"timeStamp\": \"" ^ timeStamp ^"\", \"nonce\": \"" ^ nonce ^"\"}";
-
-val blockToWrite = escreve {hash= #hash block1 ,previousHash= #previousHash block1 , data= #data block1, timeStamp= #timeStamp block1, nonce = #nonce block1 };
-val blockToWrite2 = escreve {hash= #hash block2 ,previousHash= #previousHash block2 , data= #data block2, timeStamp= #timeStamp block2, nonce = #nonce block2 };
-val addSecondBlock = blockToWrite ^ "\n" ^ blockToWrite2;
-val blockToWrite3 = escreve {hash= #hash block1 ,previousHash= #previousHash block3 , data= #data block3, timeStamp= #timeStamp block3, nonce = #nonce block3 };
-val allBlocks = addSecondBlock ^ "\n" ^ blockToWrite3;
-writeFile "./testando.sml" allBlocks;
+fun escreve {hash,previousHash, data, timeStamp, nonce} = "{\"hash\": \"" ^ hash ^"\", \"previousHash\": \"" ^ previousHash ^"\", \"data\": \"" ^ data ^"\", \"timeStamp\": \"" ^ timeStamp ^"\", \"nonce\": \"" ^ nonce ^"\"}\n";
 
 (* Lista de blocos *)
 val blockchain = [block1, block2, block3]; 
+
+(* FUNCAO DE ALTA ORDEM *)
+val allBlocks = List.map escreve blockchain;
+val myConcat = String.concat allBlocks ;
+writeFile "./testando.sml" myConcat;
 
 (* L� arquivo *)
 val leituraArquivo = readFile "./testando.sml";
@@ -113,6 +111,8 @@ val dadosarq = formata (List.length listaCaracteres, [], 0,[]);
 (* usando arquivo para remontar bloco *)
 val block1 = {hash = List.nth (dadosarq, 1), previousHash = List.nth (dadosarq, 3),data = List.nth (dadosarq, 5), timeStamp = List.nth (dadosarq, 7), nonce = List.nth (dadosarq, 9)};
 
+
+(* minera *)
 fun mine ( block: dataBlock ) = 
     let
     	val dificulty = 10
