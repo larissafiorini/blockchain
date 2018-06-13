@@ -30,6 +30,11 @@
 (* Blockchain *)
 val it = "The block chain: " : string
 
+
+(*  TYPE  *)
+
+type dataBlock = {data : string, hash : string, nonce : string, previousHash : string, timeStamp : string}
+
 (* Fun��o para c�lculo hash *)
 fun calchash {a, b, c} = 
 (Char.ord (List.nth ((explode a), 0)))
@@ -108,16 +113,15 @@ val dadosarq = formata (List.length listaCaracteres, [], 0,[]);
 (* usando arquivo para remontar bloco *)
 val block1 = {hash = List.nth (dadosarq, 1), previousHash = List.nth (dadosarq, 3),data = List.nth (dadosarq, 5), timeStamp = List.nth (dadosarq, 7), nonce = List.nth (dadosarq, 9)};
 
-fun mine (  prevHash:string ,block: {data : string, hash : string, nonce : string, previousHash : string, timeStamp : string} ) = 
+fun mine ( block: dataBlock ) = 
     let
     	val dificulty = 10
 	val target = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
-	val h = Int.toString(calchash {a= prevHash, b= timeStampToInt, c= Real.fromInt(nonceToInt)})
+	val h = Int.toString(calchash {a= (#hash block), b= timeStampToInt, c= Real.fromInt(nonceToInt)})
 	val hash = String.substring(target,0, (126-String.size(h)))^h
 	val SOME timeStampToInt= Int.fromString (#timeStamp block)
 	val SOME nonceToInt= Int.fromString (#nonce block)
     in
-    	if(1<0) then hash
-    	else if(String.compare(  String.substring(hash,0,dificulty), String.substring(target,0,dificulty)  ) = EQUAL) then hash
-    	else  mine ( hash ,{hash = (#hash block), previousHash = (#previousHash block), data = (#data block), timeStamp = (#timeStamp block), nonce = Int.toString (nonceToInt+1) }) 
+    	if(String.compare(  String.substring(hash,0,dificulty), String.substring(target,0,dificulty)  ) = EQUAL) then {hash = hash, previousHash = (#hash block), data = (#data block), timeStamp = (#timeStamp block), nonce = Int.toString (nonceToInt) }
+    	else  mine ( {hash = (#hash block), previousHash = (#previousHash block), data = (#data block), timeStamp = (#timeStamp block), nonce = Int.toString (nonceToInt+1) }) 
     end;
