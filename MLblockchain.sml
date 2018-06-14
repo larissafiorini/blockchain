@@ -77,8 +77,8 @@ val blockchain = [block1, block2, block3];
 
 (* FUNCAO DE ALTA ORDEM *)
 val allBlocks = List.map escreve blockchain;
-val fd=String.concatWith ",\n" allBlocks;
-val myConcat= "[" ^ fd ^"]";
+val concat=String.concatWith ",\n" allBlocks;
+val myConcat= "[" ^ concat ^"]";
 writeFile "./testando.sml" myConcat;
 
 (* L� arquivo *)
@@ -110,8 +110,7 @@ else stlist;
 val dadosarq = formata (List.length listaCaracteres, [], 0,[]);
 
 (* usando arquivo para remontar bloco *)
-val block1 = {hash = List.nth (dadosarq, 1), previousHash = List.nth (dadosarq, 3),data = List.nth (dadosarq, 5), timeStamp = List.nth (dadosarq, 7), nonce = List.nth (dadosarq, 9)};
-
+val block = {hash = List.nth (dadosarq, 1), previousHash = List.nth (dadosarq, 3),data = List.nth (dadosarq, 5), timeStamp = List.nth (dadosarq, 7), nonce = List.nth (dadosarq, 9)};
 
 (* minera *)
 fun mine ( block: data_block ) = 
@@ -133,10 +132,10 @@ blockchain@[mine(List.last blockchain)];
 (* FUNCAO DE ALTA ORDEM *)
 val allBlocks2 = List.map escreve (atualizaLista (blockchain));
 val concat2=String.concatWith ",\n" allBlocks2;
-val myConcat2= "[" ^ fd ^"]";
+val myConcat2= "[" ^ concat2 ^"]";
 writeFile "./testando.sml" myConcat2;
 
-(*Validacao da cadeia de blocos*)
+(*Validacao da cadeia de blocos
 fun validate (previousBlock = data_block, currentBlock = data_block, i = Int) =
 let
 	val target = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
@@ -154,5 +153,5 @@ in
 	else true;
 
 
-end;
+end;*)
 
