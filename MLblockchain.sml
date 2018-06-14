@@ -41,7 +41,7 @@ fun calchash {a, b, c} =
 + (Real.floor c);
 
 (* Defini��o de blocos *)
-val block1 = {hash = "1", previousHash = "0", data = "Hi im the first block", timeStamp = "1", nonce = "1"};
+val block1 = {hash = "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001", previousHash = "0", data = "Hi im the first block", timeStamp = "1", nonce = "1"};
 val SOME timeStampToInt= Int.fromString (#timeStamp block1);
 val SOME nonceToInt= Int.fromString (#nonce block1);
 
@@ -88,8 +88,8 @@ val leituraArquivo = readFile "./testando.sml";
 val listaCaracteres = explode leituraArquivo;
 
 (* adiciona string ao final da lista de string *)
-fun listaString (listao: string list, pal:string)=
-listao@[pal];
+fun listaString (lista: string list, pal:string)=
+lista@[pal];
 (* adiciona char ao final de lista de char *)
 fun recebechar (ch:char, chl: char list)=
 chl@[ch];
