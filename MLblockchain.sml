@@ -135,15 +135,15 @@ val concat2=String.concatWith ",\n" allBlocks2;
 val myConcat2= "[" ^ concat2 ^"]";
 writeFile "./testando.sml" myConcat2;
 
-(*Validacao da cadeia de blocos
-fun validate (previousBlock = data_block, currentBlock = data_block, i = Int) =
+(*Validacao da cadeia de blocos*)
+fun validate (previousBlock : data_block, currentBlock : data_block, i : int) =
 let
 	val target = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
 	val difficulty = 10
 in
-	if(!String.compare ((#hash currentBlock), (calchash {a= (#hash currentBlock), b= timeStampToInt, c= Real.fromInt(nonceToInt)}))) = EQUAL) then false;
-	else if(!String.compare ((#hash previousBlock),((#previousHash currentBlock))) = EQUAL) then false
-	else if(!String.compare(  String.substring(hash,0,difficulty), target  ) = EQUAL) then false
+	if(~ String.compare (   (#hash currentBlock),     Int.toString(calchash {a= (#hash currentBlock), b= Int.fromString (#timeStamp currentBlock), c= Real.fromInt(Int.fromString (#nonce currentBlock)) }) ) = EQUAL) then false
+	else if(~ String.compare (   (#hash previousBlock),    ((#previousHash currentBlock))   ) = EQUAL) then false
+	else if(~ String.compare(  String.substring( (#hash currentBlock) ,0,difficulty),   target  ) = EQUAL) then false
 	
 	else if(i < length blockchain) 
 	then validate({hash = (#hash previousBlock), previousHash = (#previousHash previousBlock), data = (#data previousBlock), timeStamp = (#timeStamp previousBlock), nonce = Int.toString (nonceToInt+1)}
@@ -153,5 +153,5 @@ in
 	else true;
 
 
-end;*)
+end;
 
