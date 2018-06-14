@@ -140,10 +140,14 @@ fun validate (previousBlock : data_block, currentBlock : data_block, i : int) =
 let
 	val target = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
 	val difficulty = 10
+	val SOME bCurrentBlock = Int.fromString (#timeStamp currentBlock)
+	val SOME nonceToInt= Int.fromString (#nonce currentBlock)
+	val cCurrentBlock = Real.fromInt(nonceToInt)
+	
 in
-	if(~ String.compare (   (#hash currentBlock),     Int.toString(calchash {a= (#hash currentBlock), b= Int.fromString (#timeStamp currentBlock), c= Real.fromInt(Int.fromString (#nonce currentBlock)) }) ) = EQUAL) then false
-	else if(~ String.compare (   (#hash previousBlock),    ((#previousHash currentBlock))   ) = EQUAL) then false
-	else if(~ String.compare(  String.substring( (#hash currentBlock) ,0,difficulty),   target  ) = EQUAL) then false
+	if( not( String.compare (   (#hash currentBlock),     Int.toString(calchash {a= (#hash currentBlock), b= bCurrentBlock, c= cCurrentBlock }) ) = EQUAL)) then false
+	else if(not ( String.compare (   (#hash previousBlock),    ((#previousHash currentBlock))   ) = EQUAL)) then false
+	else if(not (String.compare(  String.substring( (#hash currentBlock) ,0,difficulty),   target  ) = EQUAL)) then false
 	
 	else if(i < length blockchain) 
 	then validate({hash = (#hash previousBlock), previousHash = (#previousHash previousBlock), data = (#data previousBlock), timeStamp = (#timeStamp previousBlock), nonce = Int.toString (nonceToInt+1)}
