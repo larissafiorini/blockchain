@@ -31,8 +31,7 @@
 val it = "The block chain: " : string
 
 
-(*  TYPE  *)
-
+(* TYPE *)
 type data_block = {data : string, hash : string, nonce : string, previousHash : string, timeStamp : string}
 
 (* Fun��o para c�lculo hash *)
@@ -70,14 +69,16 @@ fun writeFile filename content =
     in () end;
 
 (* Escreve blocos no arquivo json*)
-fun escreve {hash,previousHash, data, timeStamp, nonce} = "{\"hash\": \"" ^ hash ^"\", \"previousHash\": \"" ^ previousHash ^"\", \"data\": \"" ^ data ^"\", \"timeStamp\": \"" ^ timeStamp ^"\", \"nonce\": \"" ^ nonce ^"\"}\n";
+fun escreve {hash,previousHash, data, timeStamp, nonce} =
+"{\"hash\": \"" ^ hash ^"\", \"previousHash\": \"" ^ previousHash ^"\", \"data\": \"" ^ data ^"\", \"timeStamp\": \"" ^ timeStamp ^"\", \"nonce\": \"" ^ nonce ^"\"}";
 
 (* Lista de blocos *)
 val blockchain = [block1, block2, block3]; 
 
 (* FUNCAO DE ALTA ORDEM *)
 val allBlocks = List.map escreve blockchain;
-val myConcat = String.concat allBlocks ;
+val fd=String.concatWith ",\n" allBlocks;
+val myConcat= "[" ^ fd ^"]";
 writeFile "./testando.sml" myConcat;
 
 (* L� arquivo *)
@@ -122,7 +123,7 @@ fun mine ( block: data_block ) =
 	val SOME timeStampToInt= Int.fromString (#timeStamp block)
 	val SOME nonceToInt= Int.fromString (#nonce block)
     in
-    	if(String.compare(  String.substring(hash,0,difficulty), String.substring(target,0,dificulty)  ) = EQUAL) then {hash = hash, previousHash = (#hash block), data = (#data block), timeStamp = (#timeStamp block), nonce = Int.toString (nonceToInt) }
+    	if(String.compare(  String.substring(hash,0,difficulty), String.substring(target,0,difficulty)  ) = EQUAL) then {hash = hash, previousHash = (#hash block), data = (#data block), timeStamp = (#timeStamp block), nonce = Int.toString (nonceToInt) }
     	else  mine ( {hash = (#hash block), previousHash = (#previousHash block), data = (#data block), timeStamp = (#timeStamp block), nonce = Int.toString (nonceToInt+1) }) 
     end;
 	
@@ -131,9 +132,9 @@ blockchain@[mine(List.last blockchain)];
 
 (* FUNCAO DE ALTA ORDEM *)
 val allBlocks2 = List.map escreve (atualizaLista (blockchain));
-writeFile "./testando.sml" (String.concat allBlocks2);
-
-
+val concat2=String.concatWith ",\n" allBlocks2;
+val myConcat2= "[" ^ fd ^"]";
+writeFile "./testando.sml" myConcat2;
 
 (*Validacao da cadeia de blocos*)
 fun validate (previousBlock = data_block, currentBlock = data_block, i = Int) =
